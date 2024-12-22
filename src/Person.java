@@ -35,8 +35,8 @@ public class Person {
         this.age = age;
     }
 
-    public boolean isGender() {
-        return gender;
+    public String getGender() {
+        return gender ? "male" : "female";
     }
 
     public void setGender(boolean gender) {
@@ -44,6 +44,6 @@ public class Person {
     }
 
     public String toString() {
-        return "Hi, I am " + name + " " + surname + ", a " + age + "-year-old " + (gender ? "male" : "female");
+        return "Hi, I am " + name + " " + surname + ", a " + age + "-years-old " + this.getGender();
     }
 }
