@@ -1,14 +1,13 @@
 import java.util.ArrayList;
 
 public class Student extends Person {
-    private static int counter = 0;
+    private static int counter = 1;
     private int studentID;
     private ArrayList<Integer> grades;
 
-    public Student(String name, String surname, int age, boolean gender, ArrayList<Integer> grades) {
-        super(name, surname, age, gender);
+    public Student() {
         this.studentID = counter++;
-        this.grades = grades;
+        this.grades = new ArrayList<>();
     }
 
     public int getStudentID() {
@@ -22,17 +21,25 @@ public class Student extends Person {
     public void setGrades(ArrayList<Integer> grades) {
         this.grades = grades;
     }
+
     public void addGrade(int grade) {
         this.grades.add(grade);
     }
 
-    public float calculateGPA() {
-        int totalPoints = 0;
-        for (Integer grade : grades) {
-            totalPoints += grade;
+    public double calculateGPA() {
+        double totalPoints = 0;
+        for (int grade : grades) {
+            totalPoints += mapToGpa(grade);
         }
+        return totalPoints / grades.size();
+    }
 
-        return totalPoints / (float) grades.size();
+    private double mapToGpa(int grade) {
+        if (grade >= 90) return 4.0;
+        else if (grade >= 80) return 3.0 + (grade - 80) * 0.1;
+        else if (grade >= 70) return 2.0 + (grade - 70) * 0.1;
+        else if (grade >= 60) return 1.0 + (grade - 60) * 0.1;
+        else return 0.0;
     }
 
     public String toString() {

@@ -1,15 +1,63 @@
 //TIP To <b>Run</b> code, press <shortcut actionId="Run"/> or
 // click the <icon src="AllIcons.Actions.Execute"/> icon in the gutter.
+
+import java.util.Scanner;
+import java.io.File;
+import java.io.FileNotFoundException;
+
 public class Main {
     public static void main(String[] args) {
-        //TIP Press <shortcut actionId="ShowIntentionActions"/> with your caret at the highlighted text
-        // to see how IntelliJ IDEA suggests fixing it.
-        System.out.printf("Hello and welcome!");
+        //setup
+        School school = new School();
 
-        for (int i = 1; i <= 5; i++) {
-            //TIP Press <shortcut actionId="Debug"/> to start debugging your code. We have set one <icon src="AllIcons.Debugger.Db_set_breakpoint"/> breakpoint
-            // for you, but you can always add more by pressing <shortcut actionId="ToggleLineBreakpoint"/>.
-            System.out.println("i = " + i);
+        try {
+            Scanner scanner = new Scanner(new File("src/students.txt"));
+            String line;
+
+            while (scanner.hasNextLine()) {
+                Student student = new Student();
+                line = scanner.nextLine();
+
+                String[] attributes = line.split("\\s+");
+                student.setName(attributes[0]);
+                student.setSurname(attributes[1]);
+                student.setAge(Integer.parseInt(attributes[2]));
+                student.setGender(attributes[3]);
+
+                for (int i = 4; i < attributes.length; i++) {
+                    student.addGrade(Integer.parseInt(attributes[i]));
+                }
+
+                school.addMember(student);
+            }
+
+            scanner = new Scanner(new File("src/teachers.txt"));
+
+            while (scanner.hasNextLine()) {
+                Teacher teacher = new Teacher();
+                line = scanner.nextLine();
+
+                String[] attributes = line.split("\\s+");
+                teacher.setName(attributes[0]);
+                teacher.setSurname(attributes[1]);
+                teacher.setAge(Integer.parseInt(attributes[2]));
+                teacher.setGender(attributes[3]);
+                teacher.setSubject(attributes[4]);
+                teacher.setYearsOfExperience(Integer.parseInt(attributes[5]));
+                teacher.setSalary(Integer.parseInt(attributes[6]));
+
+                school.addMember(teacher);
+            }
+
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
         }
+
+        System.out.println(school.toString());
+        System.out.printf("GPA - %.2f\n", school.getStudents().get(1).calculateGPA());
+
+        System.out.println("Before raise - $" + school.getTeachers().getFirst().getSalary());
+        school.getTeachers().getFirst().giveRaise(10);
+        System.out.println("After raise - $" + school.getTeachers().getFirst().getSalary());
     }
 }

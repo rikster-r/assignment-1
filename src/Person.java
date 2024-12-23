@@ -4,13 +4,6 @@ public class Person {
     private int age;
     private boolean gender;
 
-    public Person(String name, String surname, int age, boolean gender) {
-        this.name = name;
-        this.surname = surname;
-        this.age = age;
-        this.gender = gender;
-    }
-
     public String getName() {
         return name;
     }
@@ -41,6 +34,10 @@ public class Person {
 
     public void setGender(boolean gender) {
         this.gender = gender;
+    }
+
+    public void setGender(String gender) {
+        this.gender = gender.equals("Male");
     }
 
     public String toString() {
